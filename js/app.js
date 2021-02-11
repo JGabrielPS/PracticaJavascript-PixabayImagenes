@@ -54,7 +54,7 @@ function mostrarAlerta(mensaje) {
   }
 }
 
-function buscarImagenes() {
+async function buscarImagenes() {
   const termino = document.querySelector("#termino").value;
 
   const key = "20182902-d92f887662bffdf3455bc19cf";
@@ -62,12 +62,21 @@ function buscarImagenes() {
 
   Spinner();
 
-  fetch(url)
-    .then((response) => response.json())
-    .then((result) => {
-      totalPaginas = mostrarPaginas(result.totalHits);
-      mostrarImagenes(result.hits);
-    });
+  try {
+    const respuesta = await fetch(url);
+    const resultado = await respuesta.json();
+    totalPaginas = mostrarPaginas(resultado.totalHits);
+    mostrarImagenes(resultado.hits);
+  } catch (error) {
+    console.log(error);
+  }
+
+  // fetch(url)
+  //   .then((response) => response.json())
+  //   .then((result) => {
+  //     totalPaginas = mostrarPaginas(result.totalHits);
+  //     mostrarImagenes(result.hits);
+  //   });
 }
 
 function Spinner() {
